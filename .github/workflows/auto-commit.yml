@@ -1,26 +1,29 @@
 name: Auto Commit
 
+permissions:
+  contents: write
+
 on:
   schedule:
-    - cron: '0 5 * * *'  # Runs every day at 5 AM UTC
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
-  commit:
+  auto-commit:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Make change
-      run: |
-        echo "Auto commit: $(date)" >> commit-log.txt
+      - name: Make changes
+        run: |
+          echo "🕒 Auto commit on $(date)" >> commit-log.txt
 
-    - name: Commit and push
-      run: |
-        git config --global user.name "saketkumar28"
-        git config --global user.email "kumarsaket2801@gmail.com"
-        git add .
-        git commit -m "✅ Daily auto-commit"
-        git push
+      - name: Commit changes
+        run: |
+          git config --global user.name "Saket Kumar"
+          git config --global user.email "youremail@example.com"
+          git add commit-log.txt || echo "Nothing to add"
+          git diff --staged --quiet || git commit -m "✅ Daily auto commit"
+          git push
