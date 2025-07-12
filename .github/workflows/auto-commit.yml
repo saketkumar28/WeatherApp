@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '10 13 * * *'  # Runs daily at 6:40 PM IST (1:10 PM UTC)
   workflow_dispatch:
 
 jobs:
@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (master branch)
         uses: actions/checkout@v3
+        with:
+          ref: master  # ✅ Checkout master branch
 
       - name: Make changes
         run: |
@@ -22,8 +24,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.name "Saket Kumar"
-          git config --global user.email "youremail@example.com"
+          git config --global user.name "saketkumar28"
+          git config --global user.email "kumarsaket2801@gmail.com"  # Replace this
           git add commit-log.txt || echo "Nothing to add"
           git diff --staged --quiet || git commit -m "✅ Daily auto commit"
-          git push
+          git push origin master  # ✅ Push to master
